@@ -88,7 +88,7 @@ create_packages () {
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/applications
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/metainfo
   if [[ $method == "git" ]];then
-    export GOVERSION=$(curl -s https://go.dev/dl/?mode=json | jq -r '.[0].version')
+    #export GOVERSION=$(curl -s https://go.dev/dl/?mode=json | jq -r '.[0].version')
     cd /tmp/$VARPKGNAME-$today/
     docker run --name massbuilder -d massbuilder:$MASSOSLASTVER sleep 3600 
     docker exec massbuilder wget curl -fsS https://dlang.org/install.sh | bash -s dmd
