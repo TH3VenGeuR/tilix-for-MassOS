@@ -80,6 +80,7 @@ create_packages () {
     export WORKDIR=$VARPKGNAME
   fi
   mkdir -p /tmp/$VARPKGNAME-$today/usr/local
+  mkdir -p /tmp/$VARPKGNAME-$today/usr/bin
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/glib-2.0/schemas/
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/resources
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/data
