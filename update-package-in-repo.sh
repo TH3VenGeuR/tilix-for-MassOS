@@ -98,7 +98,7 @@ create_packages () {
     docker exec --workdir /opt/$WORKDIR massbuilder bash -c 'source /root/dlang/dmd-2.100.0/activate; dub build --build=release'
     docker cp massbuilder:/opt/$WORKDIR/tilix usr/bin/tilix
     docker cp massbuilder:/opt/$WORKDIR/share/ usr/
-    docker cp massbuilder:/opt/$WORKDIR/data
+    docker cp massbuilder:/opt/$WORKDIR/data usr/
 
     chmod -R +x /tmp/$VARPKGNAME-$today/usr/local/
     tar -cJf $VARPKGNAME-$VARPKGVER-$VARPKGARCH.tar.xz *
