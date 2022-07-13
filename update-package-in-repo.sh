@@ -91,10 +91,10 @@ create_packages () {
     #export GOVERSION=$(curl -s https://go.dev/dl/?mode=json | jq -r '.[0].version')
     cd /tmp/$VARPKGNAME-$today/
     docker run --name massbuilder -d massbuilder:$MASSOSLASTVER sleep 3600 
-    docker exec massbuilder curl -fsS https://dlang.org/install.sh | bash -s dmd
+    docker exec massbuilder bash -c 'curl -fsS https://dlang.org/install.sh | bash -s dmd'
     docker exec --workdir /opt massbuilder git clone $git_url
     docker exec --workdir /opt/$WORKDIR massbuilder git checkout $VARPKGVER
-    docker exec --workdir /opt/$WORKDIR massbuilder bash -c 'source /root/dlang/dmd-2.100.0/activate dub build --build=release'
+    docker exec --workdir /opt/$WORKDIR massbuilder bash -c 'source /root/dlang/dmd-2.100.0/activate; dub build --build=release'
     docker exec --workdir /opt/$WORKDIR massbuilder install.sh
     #docker exec --workdir /opt/$WORKDIR/data/resources massbuilder glib-compile-resources tilix.gresource.xml
     #docker exec --workdir /opt/$WORKDIR/data/resources massbuilder msgfmt --desktop --template=data/pkg/desktop/com.gexperts.Tilix.desktop.in -d po -o data/pkg/desktop/com.gexperts.Tilix.desktop
