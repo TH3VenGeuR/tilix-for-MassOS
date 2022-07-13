@@ -82,6 +82,7 @@ create_packages () {
   mkdir -p /tmp/$VARPKGNAME-$today/usr/local
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/glib-2.0/schemas/
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/resources
+  mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/data
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/dbus-1/services
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/nautilus-python/extensions
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/icons
@@ -95,21 +96,9 @@ create_packages () {
     docker exec --workdir /opt massbuilder git clone $git_url
     docker exec --workdir /opt/$WORKDIR massbuilder git checkout $VARPKGVER
     docker exec --workdir /opt/$WORKDIR massbuilder bash -c 'source /root/dlang/dmd-2.100.0/activate; dub build --build=release'
-    docker exec --workdir /opt/$WORKDIR/data/resources massbuilder glib-compile-resources tilix.gresource.xml
-    docker exec --workdir /opt/$WORKDIR/data/resources massbuilder msgfmt --desktop --template=data/pkg/desktop/com.gexperts.Tilix.desktop.in -d po -o data/pkg/desktop/com.gexperts.Tilix.desktop
-    docker exec --workdir /opt/$WORKDIR/data/resources massbuilder msgfmt --xml --template=data/metainfo/com.gexperts.Tilix.appdata.xml.in -d po -o data/metainfo/com.gexperts.Tilix.appdata.xml
     docker cp massbuilder:/opt/$WORKDIR/tilix usr/bin/tilix
     docker cp massbuilder:/opt/$WORKDIR/share/ usr/
-    docker cp massbuilder:/opt/$WORKDIR/data/gsettings/com.gexperts.Tilix.gschema.xml usr/share/glib-2.0/schemas/com.gexperts.Tilix.gschema.xml
-    docker cp massbuilder:/opt/$WORKDIR/data/resources/tilix.gresource usr/share/tilix/resources
-    docker cp massbuilder:/opt/$WORKDIR/data/scripts usr/share/tilix/
-    docker cp massbuilder:/opt/$WORKDIR/data/schemes usr/share/tilix/
-    docker cp massbuilder:/opt/$WORKDIR/data/nautilus/open-tilix.py usr/share/nautilus-python/extensions/
-    docker cp massbuilder:/opt/$WORKDIR/data/dbus/com.gexperts.Tilix.service usr/share/dbus-1/services/
-    docker cp massbuilder:/opt/$WORKDIR/data/icons/hicolor usr/share/icons/
-    docker cp massbuilder:/opt/$WORKDIR/data/pkg/desktop/com.gexperts.Tilix.desktop usr/share/applications/
-    docker cp massbuilder:/opt/$WORKDIR/data/metainfo/com.gexperts.Tilix.appdata.xml usr/share/metainfo/
-    docker cp massbuilder:/opt/$WORKDIR/data/metainfo/com.gexperts.Tilix.appdata.xml usr/share/metainfo/
+    docker cp massbuilder:/opt/$WORKDIR/data
 
     chmod -R +x /tmp/$VARPKGNAME-$today/usr/local/
     tar -cJf $VARPKGNAME-$VARPKGVER-$VARPKGARCH.tar.xz *
@@ -131,5 +120,5 @@ create_packages () {
 
 build_massos_container
 #create_packages name method project_home git_url api_option api_filter depandancies description pre_install_cmd post_install_cmd pre_remove_cmd post_remove_cmd pre_upgrade_cmd post_upgrade_cmd buildargs
-create_packages "tilix" "git" "https://gnunn1.github.io/tilix-web" "https://github.com/gnunn1/tilix.git" "gnunn1/tilix" "unused" "unused" "A tiling terminal emulator for Linux using GTK+ 3" "none" "  glib-compile-schemas /usr/share/glib-2.0/schemas/ \n      xdg-desktop-menu forceupdate --mode system \n   gtk-update-icon-cache -f /usr/share/icons/hicolor/ \n" "none" "none" "none" "none" "none" 
+create_packages "tilix" "git" "https://gnunn1.github.io/tilix-web" "https://github.com/gnunn1/tilix.git" "gnunn1/tilix" "unused" "unused" "A tiling terminal emulator for Linux using GTK+ 3" "none" "  glib-compile-schemas /usr/share/glib-2.0/schemas/ \n    glib-compile-resources /usr/share/tilix/resources/tilix.gresource.xml \n      xdg-desktop-menu forceupdate --mode system \n   gtk-update-icon-cache -f /usr/share/icons/hicolor/ \n    msgfmt --desktop --template=/usr/share/tilix/data/pkg/desktop/com.gexperts.Tilix.desktop.in -d po -o /usr/share/tilix/data/pkg/desktop/com.gexperts.Tilix.desktop  \n    msgfmt --xml --template=/usr/share/tilix/data/metainfo/com.gexperts.Tilix.appdata.xml.in -d po -o /usr/share/tilix/data/metainfo/com.gexperts.Tilix.appdata.xml " "none" "none" "none" "none" "none" 
 
