@@ -84,8 +84,8 @@ create_packages () {
   mkdir -p /tmp/$VARPKGNAME-$today/usr/src  
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/glib-2.0/schemas/
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/resources
-  mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/data/pkg/desktop
-  mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/data/pkg/metainfo
+  mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/pkg/desktop
+  mkdir -p /tmp/$VARPKGNAME-$today/usr/share/tilix/pkg/metainfo
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/dbus-1/services
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/nautilus-python/extensions
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/icons
@@ -123,5 +123,5 @@ create_packages () {
 
 build_massos_container
 #create_packages name method project_home git_url api_option api_filter depandancies description pre_install_cmd post_install_cmd pre_remove_cmd post_remove_cmd pre_upgrade_cmd post_upgrade_cmd buildargs
-create_packages "tilix" "git" "https://gnunn1.github.io/tilix-web" "https://github.com/gnunn1/tilix.git" "gnunn1/tilix" "unused" "" "A tiling terminal emulator for Linux using GTK+ 3" "none" "  glib-compile-schemas /usr/src/tilix/gsetting ; cp /usr/src/tilix/gsetting/tilix.gresource.xml /usr/share/tilix/resources/tilix.gresource.xml \n    glib-compile-resources /usr/src/tilix/resources/tilix.gresource.xml \n      xdg-desktop-menu forceupdate --mode system \n   gtk-update-icon-cache -f /usr/share/icons/hicolor/ \n    msgfmt --desktop --template=/usr/src/tilix/data/pkg/desktop/com.gexperts.Tilix.desktop.in -d po -o /usr/src/tilix/data/pkg/desktop/com.gexperts.Tilix.desktop  \n    msgfmt --xml --template=/usr/src/tilix/data/metainfo/com.gexperts.Tilix.appdata.xml.in -d po -o /usr/share/tilix/data/metainfo/com.gexperts.Tilix.appdata.xml \n cd /usr/share/tilix/po \n for f in po/*.po \n do echo \"Processing \$f\" \n LOCALE=`basename \"\$f\" .po` \n msgfmt \$f -o \"\$LOCALE.mo\" \n install -Dm 644 \"\$LOCALE.mo\" \"/usr/share/locale/\$LOCALE/LC_MESSAGES/tilix.mo\" \n rm -f \"\$LOCALE.mo\" \n done" "none" "none" "none" "none" "none" 
+create_packages "tilix" "git" "https://gnunn1.github.io/tilix-web" "https://github.com/gnunn1/tilix.git" "gnunn1/tilix" "unused" "" "A tiling terminal emulator for Linux using GTK+ 3" "none" "  glib-compile-schemas /usr/src/tilix/gsettings \n cp /usr/src/tilix/gsettings/tilix.gresource.xml /usr/share/tilix/resources/tilix.gresource.xml \n    glib-compile-resources /usr/src/tilix/resources/tilix.gresource.xml \n      xdg-desktop-menu forceupdate --mode system \n   gtk-update-icon-cache -f /usr/share/icons/hicolor/ \n    msgfmt --desktop --template=/usr/src/tilix/pkg/desktop/com.gexperts.Tilix.desktop.in -d po -o /usr/share/tilix/pkg/desktop/com.gexperts.Tilix.desktop  \n    msgfmt --xml --template=/usr/src/tilix/data/metainfo/com.gexperts.Tilix.appdata.xml.in -d po -o /usr/share/tilix/metainfo/com.gexperts.Tilix.appdata.xml \n cd /usr/share/tilix/po \n for f in po/*.po \n do echo \"Processing \$f\" \n LOCALE=`basename \"\$f\" .po` \n msgfmt \$f -o \"\$LOCALE.mo\" \n install -Dm 644 \"\$LOCALE.mo\" \"/usr/share/locale/\$LOCALE/LC_MESSAGES/tilix.mo\" \n rm -f \"\$LOCALE.mo\" \n done" "none" "none" "none" "none" "none" 
 
