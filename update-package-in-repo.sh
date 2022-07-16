@@ -41,7 +41,8 @@ create_packages () {
   pre_upgrade="${13}"
   post_upgrade="${14}"
   export VARBUILDTAGS="${15}"
-  export VARPKGVER=`curl https://api.github.com/repos/$api_option/releases/latest | grep tag_name | awk '{print $2}' | tr -d '"'  | tr -d ','| sed 's/^v//'` 
+  export VARPKGVERORI=`curl https://api.github.com/repos/$api_option/releases/latest | grep tag_name | awk '{print $2}' | tr -d '"'  | tr -d ','` 
+  export VARPKGVER=`echo $VARPKGVERORI | sed 's/^v//'` 
   envsubst < templates/manifest.tpl > /var/www/massos-repo/x86_64/manifest/$VARPKGNAME.manifest
 
   if [[ $pre_install != "none" ]];then
@@ -98,7 +99,7 @@ create_packages () {
     docker run --name massbuilder -d massbuilder:$MASSOSLASTVER sleep 3600 
     docker exec massbuilder bash -c 'curl -fsS https://dlang.org/install.sh | bash -s dmd'
     docker exec --workdir /opt massbuilder git clone $git_url
-    docker exec --workdir /opt/$WORKDIR massbuilder git checkout $VARPKGVER
+    docker exec --workdir /opt/$WORKDIR massbuilder git checkout $VARPKGVERORI
     docker exec --workdir /opt/$WORKDIR massbuilder bash -c 'source /root/dlang/dmd-2.100.0/activate; dub build --build=release'
     docker cp massbuilder:/opt/$WORKDIR/tilix usr/bin/tilix
     docker cp massbuilder:/opt/$WORKDIR/share/ usr/src/tilix/
