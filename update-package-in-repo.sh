@@ -104,7 +104,8 @@ create_packages () {
     docker cp massbuilder:/opt/$WORKDIR/share/ usr/src/tilix/
     docker cp massbuilder:/opt/$WORKDIR/data usr/src/tilix
     docker cp massbuilder:/opt/$WORKDIR/po usr/src/tilix
-    chmod -R +x /tmp/$VARPKGNAME-$today/usr/local/
+    find /tmp/$VARPKGNAME-$today/usr/bin/ -type f -exec strip --strip-all {} ';' &>/dev/null || true
+    chmod -R +x /tmp/$VARPKGNAME-$today/usr/bin/tilix
     tar -cJf $VARPKGNAME-$VARPKGVER-$VARPKGARCH.tar.xz *
     cp $VARPKGNAME-$VARPKGVER-$VARPKGARCH.tar.xz /var/www/massos-repo/x86_64/archives/
     docker rm -f massbuilder
