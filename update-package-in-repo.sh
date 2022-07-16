@@ -41,7 +41,7 @@ create_packages () {
   pre_upgrade="${13}"
   post_upgrade="${14}"
   export VARBUILDTAGS="${15}"
-  export VARPKGVER=`curl https://api.github.com/repos/$api_option/releases/latest | grep tag_name | awk '{print $2}' | tr -d '"'  | tr -d ','` 
+  export VARPKGVER=`curl https://api.github.com/repos/$api_option/releases/latest | grep tag_name | awk '{print $2}' | tr -d '"'  | tr -d ','| sed 's/^v//'` 
   envsubst < templates/manifest.tpl > /var/www/massos-repo/x86_64/manifest/$VARPKGNAME.manifest
 
   if [[ $pre_install != "none" ]];then
