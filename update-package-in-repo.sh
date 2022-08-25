@@ -106,7 +106,7 @@ create_packages () {
     docker cp massbuilder:/opt/$WORKDIR/share/ usr/src/tilix/
     docker cp massbuilder:/opt/$WORKDIR/data usr/src/tilix
     docker cp massbuilder:/opt/$WORKDIR/po usr/src/tilix
-    docker cp massbuilder:/opt/$WORKDIR/LICENCE usr/share/licences/tilix
+    docker cp massbuilder:/opt/$WORKDIR/LICENSE usr/share/licences/tilix
     find /tmp/$VARPKGNAME-$today/usr/ -type f -exec strip --strip-all {} ';' &>/dev/null || true
     find /tmp/$VARPKGNAME-$today/usr/ -type f -name \*.a -or -name \*.o -exec strip --strip-debug {} ';' &>/dev/null || true
     find /tmp/$VARPKGNAME-$today/usr/ -type f -name \*.so\* -exec strip --strip-unneeded {} ';' &>/dev/null || true    chmod -R +x /tmp/$VARPKGNAME-$today/usr/bin/tilix
