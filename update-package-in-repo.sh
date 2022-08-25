@@ -92,7 +92,7 @@ create_packages () {
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/nautilus-python/extensions
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/icons
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/applications
-  mkdir -p /tmp/$VARPKGNAME-$today/usr/share/licences
+  mkdir -p /tmp/$VARPKGNAME-$today/usr/share/licenses
   mkdir -p /tmp/$VARPKGNAME-$today/usr/share/metainfo
   if [[ $method == "git" ]];then
     #export GOVERSION=$(curl -s https://go.dev/dl/?mode=json | jq -r '.[0].version')
@@ -106,7 +106,7 @@ create_packages () {
     docker cp massbuilder:/opt/$WORKDIR/share/ usr/src/tilix/
     docker cp massbuilder:/opt/$WORKDIR/data usr/src/tilix
     docker cp massbuilder:/opt/$WORKDIR/po usr/src/tilix
-    docker cp massbuilder:/opt/$WORKDIR/LICENSE usr/share/licences/tilix
+    docker cp massbuilder:/opt/$WORKDIR/LICENSE usr/share/licenses/tilix
     find /tmp/$VARPKGNAME-$today/usr/ -type f -exec strip --strip-all {} ';' &>/dev/null || true
     find /tmp/$VARPKGNAME-$today/usr/ -type f -name \*.a -or -name \*.o -exec strip --strip-debug {} ';' &>/dev/null || true
     find /tmp/$VARPKGNAME-$today/usr/ -type f -name \*.so\* -exec strip --strip-unneeded {} ';' &>/dev/null || true    chmod -R +x /tmp/$VARPKGNAME-$today/usr/bin/tilix
